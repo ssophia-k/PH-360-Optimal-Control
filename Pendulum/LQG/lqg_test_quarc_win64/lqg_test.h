@@ -7,9 +7,9 @@
  *
  * Code generation for model "lqg_test".
  *
- * Model version              : 6.7
+ * Model version              : 6.8
  * Simulink Coder version : 9.6 (R2021b) 14-May-2021
- * C source code generated on : Mon Apr 27 16:35:31 2026
+ * C source code generated on : Thu May  7 14:39:39 2026
  *
  * Target selection: quarc_win64.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -872,21 +872,26 @@
 
 /* Block signals (default storage) */
 typedef struct {
-  real_T Pendulumcountstorad;          /* '<S59>/Pendulum:  counts to rad' */
-  real_T Bias;                         /* '<S61>/Bias' */
-  real_T Armcountstorad;               /* '<S59>/Arm: counts to rad' */
-  real_T theta_dot;                    /* '<S60>/theta_dot' */
-  real_T alpha_dot;                    /* '<S60>/alpha_dot' */
+  real_T Pendulumcountstorad;          /* '<S60>/Pendulum:  counts to rad' */
+  real_T Bias;                         /* '<S62>/Bias' */
+  real_T Armcountstorad;               /* '<S60>/Arm: counts to rad' */
+  real_T theta_dot;                    /* '<S61>/theta_dot' */
+  real_T alpha_dot;                    /* '<S61>/alpha_dot' */
   real_T ReshapeX0[4];                 /* '<S3>/ReshapeX0' */
   real_T Gain[2];                      /* '<S4>/Gain' */
+  real_T Gain_m[2];                    /* '<S6>/Gain' */
   real_T Gain_b[3];                    /* '<S5>/Gain' */
+  real_T SliderGain;                   /* '<S66>/Slider Gain' */
+  real_T PendTorqueNm;                 /* '<S68>/Pend Torque (N.m)' */
+  real_T mJtoJ;                        /* '<S65>/mJ to J' */
+  real_T cosalpha;                     /* '<S67>/cos(alpha)' */
+  real_T UnaryMinus;                   /* '<S67>/Unary Minus' */
   real_T EnableBalanceControlSwitch;/* '<Root>/Enable Balance Control Switch' */
   real_T Reshapey[2];                  /* '<S3>/Reshapey' */
-  real_T Add[4];                       /* '<S27>/Add' */
-  real_T ForveCCW;                     /* '<S6>/For +ve CCW' */
-  real_T PendTorqueNm;                 /* '<S67>/Pend Torque (N.m)' */
-  real_T JtomJ;                        /* '<S64>/J to mJ' */
-  real_T Product3[4];                  /* '<S57>/Product3' */
+  real_T Add[4];                       /* '<S28>/Add' */
+  real_T ForveCCW;                     /* '<S7>/For +ve CCW' */
+  real_T JtomJ;                        /* '<S65>/J to mJ' */
+  real_T Product3[4];                  /* '<S58>/Product3' */
   uint8_T Compare;                     /* '<S2>/Compare' */
   boolean_T DataTypeConversionReset;   /* '<S3>/DataTypeConversionReset' */
 } B_lqg_test_T;
@@ -896,10 +901,15 @@ typedef struct {
   real_T HILInitialize_FilterFrequency[2];/* '<Root>/HIL Initialize' */
   t_uint64 ToHostFile_PointsWritten;   /* '<Root>/To Host File' */
   t_card HILInitialize_Card;           /* '<Root>/HIL Initialize' */
-  t_task HILReadEncoderTimebase_Task;  /* '<S6>/HIL Read Encoder Timebase' */
+  t_task HILReadEncoderTimebase_Task;  /* '<S7>/HIL Read Encoder Timebase' */
   struct {
     void *LoggedData;
   } Pendulumdeg_PWORK;                 /* '<Root>/Pendulum (deg)' */
+
+  struct {
+    void *LoggedData;
+  } PendulumangularvelocityDegs_PWO;
+                               /* '<Root>/Pendulum angular velocity (Deg//s)' */
 
   struct {
     void *LoggedData;
@@ -910,41 +920,41 @@ typedef struct {
     void *LoggedData;
   } VmV_PWORK;                         /* '<Root>/Vm (V)' */
 
-  void *HILWriteAnalog_PWORK;          /* '<S6>/HIL Write Analog' */
+  void *HILWriteAnalog_PWORK;          /* '<S7>/HIL Write Analog' */
   struct {
     void *LoggedData;
-  } PendulumEnergymJ_PWORK;            /* '<S7>/Pendulum Energy (mJ)' */
+  } PendulumEnergymJ_PWORK;            /* '<S8>/Pendulum Energy (mJ)' */
 
   int32_T HILInitialize_ClockModes;    /* '<Root>/HIL Initialize' */
   int32_T HILInitialize_DOStates;      /* '<Root>/HIL Initialize' */
   int32_T HILInitialize_QuadratureModes[2];/* '<Root>/HIL Initialize' */
   int32_T HILInitialize_InitialEICounts[2];/* '<Root>/HIL Initialize' */
-  int32_T HILReadEncoderTimebase_Buffer[2];/* '<S6>/HIL Read Encoder Timebase' */
+  int32_T HILReadEncoderTimebase_Buffer[2];/* '<S7>/HIL Read Encoder Timebase' */
   uint32_T ToHostFile_SamplesCount;    /* '<Root>/To Host File' */
   uint32_T ToHostFile_ArrayNameLength; /* '<Root>/To Host File' */
   int_T MemoryX_IWORK;                 /* '<S3>/MemoryX' */
-  int8_T MeasurementUpdate_SubsysRanBC;/* '<S27>/MeasurementUpdate' */
-  boolean_T MeasurementUpdate_MODE;    /* '<S27>/MeasurementUpdate' */
+  int8_T MeasurementUpdate_SubsysRanBC;/* '<S28>/MeasurementUpdate' */
+  boolean_T MeasurementUpdate_MODE;    /* '<S28>/MeasurementUpdate' */
 } DW_lqg_test_T;
 
 /* Continuous states (default storage) */
 typedef struct {
-  real_T theta_dot_CSTATE;             /* '<S60>/theta_dot' */
-  real_T alpha_dot_CSTATE;             /* '<S60>/alpha_dot' */
+  real_T theta_dot_CSTATE;             /* '<S61>/theta_dot' */
+  real_T alpha_dot_CSTATE;             /* '<S61>/alpha_dot' */
   real_T MemoryX_CSTATE[4];            /* '<S3>/MemoryX' */
 } X_lqg_test_T;
 
 /* State derivatives (default storage) */
 typedef struct {
-  real_T theta_dot_CSTATE;             /* '<S60>/theta_dot' */
-  real_T alpha_dot_CSTATE;             /* '<S60>/alpha_dot' */
+  real_T theta_dot_CSTATE;             /* '<S61>/theta_dot' */
+  real_T alpha_dot_CSTATE;             /* '<S61>/alpha_dot' */
   real_T MemoryX_CSTATE[4];            /* '<S3>/MemoryX' */
 } XDot_lqg_test_T;
 
 /* State disabled  */
 typedef struct {
-  boolean_T theta_dot_CSTATE;          /* '<S60>/theta_dot' */
-  boolean_T alpha_dot_CSTATE;          /* '<S60>/alpha_dot' */
+  boolean_T theta_dot_CSTATE;          /* '<S61>/theta_dot' */
+  boolean_T alpha_dot_CSTATE;          /* '<S61>/alpha_dot' */
   boolean_T MemoryX_CSTATE[4];         /* '<S3>/MemoryX' */
 } XDis_lqg_test_T;
 
@@ -982,29 +992,53 @@ typedef struct {
 /* Parameters (default storage) */
 struct P_lqg_test_T_ {
   real_T Jp_cm;                        /* Variable: Jp_cm
-                                        * Referenced by: '<S67>/Pend Inertia (kg.m^2)'
+                                        * Referenced by: '<S68>/Pend Inertia (kg.m^2)'
                                         */
   real_T K_new[4];                     /* Variable: K_new
                                         * Referenced by: '<Root>/u = -K*x'
                                         */
+  real_T Rm;                           /* Variable: Rm
+                                        * Referenced by: '<S65>/Torque to Voltage'
+                                        */
   real_T g;                            /* Variable: g
-                                        * Referenced by: '<S67>/Pend Torque (N.m)'
+                                        * Referenced by: '<S68>/Pend Torque (N.m)'
+                                        */
+  real_T kt;                           /* Variable: kt
+                                        * Referenced by: '<S65>/Torque to Voltage'
                                         */
   real_T l;                            /* Variable: l
-                                        * Referenced by: '<S67>/Pend Torque (N.m)'
+                                        * Referenced by: '<S68>/Pend Torque (N.m)'
                                         */
   real_T mp;                           /* Variable: mp
-                                        * Referenced by: '<S67>/Pend Torque (N.m)'
+                                        * Referenced by: '<S68>/Pend Torque (N.m)'
+                                        */
+  real_T mr;                           /* Variable: mr
+                                        * Referenced by: '<S65>/Acceleration to Torque'
+                                        */
+  real_T r;                            /* Variable: r
+                                        * Referenced by: '<S65>/Acceleration to Torque'
                                         */
   real_T EnableBalanceControl_const;
                                    /* Mask Parameter: EnableBalanceControl_const
                                     * Referenced by: '<S2>/Constant'
                                     */
+  real_T kemsJ_gain;                   /* Mask Parameter: kemsJ_gain
+                                        * Referenced by: '<S66>/Slider Gain'
+                                        */
+  real_T ErmJ_gain;                    /* Mask Parameter: ErmJ_gain
+                                        * Referenced by: '<S63>/Slider Gain'
+                                        */
   uint32_T HILWriteAnalog_channels;   /* Mask Parameter: HILWriteAnalog_channels
-                                       * Referenced by: '<S6>/HIL Write Analog'
+                                       * Referenced by: '<S7>/HIL Write Analog'
                                        */
   real_T Lykyhatkk1_Y0;                /* Expression: 0
-                                        * Referenced by: '<S57>/L*(y[k]-yhat[k|k-1])'
+                                        * Referenced by: '<S58>/L*(y[k]-yhat[k|k-1])'
+                                        */
+  real_T ImpulseAmplitude_Gain;        /* Expression: 0.2
+                                        * Referenced by: '<S64>/Impulse Amplitude'
+                                        */
+  real_T utrue0estimate_Threshold;     /* Expression: 0
+                                        * Referenced by: '<Root>/1 = true, 0 = estimate'
                                         */
   real_T ConverttoVector_Gain[4];      /* Expression: [1 0 0 0]
                                         * Referenced by: '<Root>/Convert to Vector'
@@ -1052,37 +1086,40 @@ struct P_lqg_test_T_ {
                                         * Referenced by: '<Root>/HIL Initialize'
                                         */
   real_T Pendulumcountstorad_Gain;     /* Expression: 2*pi/512/4
-                                        * Referenced by: '<S59>/Pendulum:  counts to rad'
+                                        * Referenced by: '<S60>/Pendulum:  counts to rad'
                                         */
   real_T Constant2_Value;              /* Expression: 2*pi
-                                        * Referenced by: '<S61>/Constant2'
+                                        * Referenced by: '<S62>/Constant2'
                                         */
   real_T Bias_Bias;                    /* Expression: -pi
-                                        * Referenced by: '<S61>/Bias'
+                                        * Referenced by: '<S62>/Bias'
                                         */
   real_T Armcountstorad_Gain;          /* Expression: -2*pi/512/4
-                                        * Referenced by: '<S59>/Arm: counts to rad'
+                                        * Referenced by: '<S60>/Arm: counts to rad'
                                         */
   real_T theta_dot_A;                  /* Computed Parameter: theta_dot_A
-                                        * Referenced by: '<S60>/theta_dot'
+                                        * Referenced by: '<S61>/theta_dot'
                                         */
   real_T theta_dot_C;                  /* Computed Parameter: theta_dot_C
-                                        * Referenced by: '<S60>/theta_dot'
+                                        * Referenced by: '<S61>/theta_dot'
                                         */
   real_T theta_dot_D;                  /* Computed Parameter: theta_dot_D
-                                        * Referenced by: '<S60>/theta_dot'
+                                        * Referenced by: '<S61>/theta_dot'
                                         */
   real_T alpha_dot_A;                  /* Computed Parameter: alpha_dot_A
-                                        * Referenced by: '<S60>/alpha_dot'
+                                        * Referenced by: '<S61>/alpha_dot'
                                         */
   real_T alpha_dot_C;                  /* Computed Parameter: alpha_dot_C
-                                        * Referenced by: '<S60>/alpha_dot'
+                                        * Referenced by: '<S61>/alpha_dot'
                                         */
   real_T alpha_dot_D;                  /* Computed Parameter: alpha_dot_D
-                                        * Referenced by: '<S60>/alpha_dot'
+                                        * Referenced by: '<S61>/alpha_dot'
                                         */
   real_T Gain_Gain;                    /* Expression: 180/pi
                                         * Referenced by: '<S4>/Gain'
+                                        */
+  real_T Gain_Gain_i;                  /* Expression: 180/pi
+                                        * Referenced by: '<S6>/Gain'
                                         */
   real_T SignalGenerator_Amplitude;    /* Expression: 0
                                         * Referenced by: '<Root>/Signal Generator'
@@ -1099,7 +1136,37 @@ struct P_lqg_test_T_ {
   real_T Gain_Gain_a;                  /* Expression: 180/pi
                                         * Referenced by: '<S5>/Gain'
                                         */
-  real_T Constant_Value;               /* Expression: 0
+  real_T Step_Time;                    /* Expression: 1
+                                        * Referenced by: '<S64>/Step'
+                                        */
+  real_T Step_Y0;                      /* Expression: 0
+                                        * Referenced by: '<S64>/Step'
+                                        */
+  real_T Step_YFinal;                  /* Expression: 1
+                                        * Referenced by: '<S64>/Step'
+                                        */
+  real_T Step1_Time;                   /* Expression: 1.1
+                                        * Referenced by: '<S64>/Step1'
+                                        */
+  real_T Step1_Y0;                     /* Expression: 0
+                                        * Referenced by: '<S64>/Step1'
+                                        */
+  real_T Step1_YFinal;                 /* Expression: -1
+                                        * Referenced by: '<S64>/Step1'
+                                        */
+  real_T u_max_Value;                  /* Expression: 8
+                                        * Referenced by: '<S8>/u_max'
+                                        */
+  real_T Constant_Value;               /* Expression: 1
+                                        * Referenced by: '<S8>/Constant'
+                                        */
+  real_T Constant_Value_o;             /* Expression: 1
+                                        * Referenced by: '<S68>/Constant'
+                                        */
+  real_T mJtoJ_Gain;                   /* Expression: 0.001
+                                        * Referenced by: '<S65>/mJ to J'
+                                        */
+  real_T Constant_Value_g;             /* Expression: 0
                                         * Referenced by: '<Root>/Constant'
                                         */
   real_T A_Value[16];                  /* Expression: pInitialization.A
@@ -1112,22 +1179,19 @@ struct P_lqg_test_T_ {
                                         * Referenced by: '<S3>/C'
                                         */
   real_T CovarianceZ_Value[16];        /* Expression: pInitialization.Z
-                                        * Referenced by: '<S8>/CovarianceZ'
+                                        * Referenced by: '<S9>/CovarianceZ'
                                         */
   real_T KalmanGainL_Value[8];         /* Expression: pInitialization.L
-                                        * Referenced by: '<S8>/KalmanGainL'
+                                        * Referenced by: '<S9>/KalmanGainL'
                                         */
   real_T D_Value[2];                   /* Expression: pInitialization.D
                                         * Referenced by: '<S3>/D'
                                         */
   real_T ForveCCW_Gain;                /* Expression: -1
-                                        * Referenced by: '<S6>/For +ve CCW'
-                                        */
-  real_T Constant_Value_o;             /* Expression: 1
-                                        * Referenced by: '<S67>/Constant'
+                                        * Referenced by: '<S7>/For +ve CCW'
                                         */
   real_T JtomJ_Gain;                   /* Expression: 1000
-                                        * Referenced by: '<S64>/J to mJ'
+                                        * Referenced by: '<S65>/J to mJ'
                                         */
   int32_T HILInitialize_CKChannels;
                                  /* Computed Parameter: HILInitialize_CKChannels
@@ -1142,7 +1206,7 @@ struct P_lqg_test_T_ {
                                    */
   int32_T HILReadEncoderTimebase_Clock;
                              /* Computed Parameter: HILReadEncoderTimebase_Clock
-                              * Referenced by: '<S6>/HIL Read Encoder Timebase'
+                              * Referenced by: '<S7>/HIL Read Encoder Timebase'
                               */
   uint32_T HILInitialize_AIChannels;
                                  /* Computed Parameter: HILInitialize_AIChannels
@@ -1170,11 +1234,11 @@ struct P_lqg_test_T_ {
                                   */
   uint32_T HILReadEncoderTimebase_Channels[2];
                           /* Computed Parameter: HILReadEncoderTimebase_Channels
-                           * Referenced by: '<S6>/HIL Read Encoder Timebase'
+                           * Referenced by: '<S7>/HIL Read Encoder Timebase'
                            */
   uint32_T HILReadEncoderTimebase_SamplesI;
                           /* Computed Parameter: HILReadEncoderTimebase_SamplesI
-                           * Referenced by: '<S6>/HIL Read Encoder Timebase'
+                           * Referenced by: '<S7>/HIL Read Encoder Timebase'
                            */
   uint32_T ToHostFile_Decimation;   /* Computed Parameter: ToHostFile_Decimation
                                      * Referenced by: '<Root>/To Host File'
@@ -1293,20 +1357,20 @@ struct P_lqg_test_T_ {
                                    */
   boolean_T HILReadEncoderTimebase_Active;
                             /* Computed Parameter: HILReadEncoderTimebase_Active
-                             * Referenced by: '<S6>/HIL Read Encoder Timebase'
+                             * Referenced by: '<S7>/HIL Read Encoder Timebase'
                              */
   boolean_T isSqrtUsed_Value;          /* Expression: pInitialization.isSqrtUsed
-                                        * Referenced by: '<S55>/isSqrtUsed'
+                                        * Referenced by: '<S56>/isSqrtUsed'
                                         */
   boolean_T Enable_Value;              /* Expression: true()
                                         * Referenced by: '<S3>/Enable'
                                         */
   boolean_T HILWriteAnalog_Active;  /* Computed Parameter: HILWriteAnalog_Active
-                                     * Referenced by: '<S6>/HIL Write Analog'
+                                     * Referenced by: '<S7>/HIL Write Analog'
                                      */
   uint8_T HILReadEncoderTimebase_Overflow;
                           /* Computed Parameter: HILReadEncoderTimebase_Overflow
-                           * Referenced by: '<S6>/HIL Read Encoder Timebase'
+                           * Referenced by: '<S7>/HIL Read Encoder Timebase'
                            */
   uint8_T ToHostFile_file_name[9];     /* Expression: file_name_argument
                                         * Referenced by: '<Root>/To Host File'
@@ -1478,68 +1542,69 @@ extern RT_MODEL_lqg_test_T *const lqg_test_M;
  * '<S3>'   : 'lqg_test/Kalman Filter'
  * '<S4>'   : 'lqg_test/Radians to Degrees'
  * '<S5>'   : 'lqg_test/Radians to Degrees1'
- * '<S6>'   : 'lqg_test/Rotary Pendulum Interface'
- * '<S7>'   : 'lqg_test/Swing-Up'
- * '<S8>'   : 'lqg_test/Kalman Filter/CalculatePL'
- * '<S9>'   : 'lqg_test/Kalman Filter/CalculateYhat'
- * '<S10>'  : 'lqg_test/Kalman Filter/CovarianceOutputConfigurator'
- * '<S11>'  : 'lqg_test/Kalman Filter/DataTypeConversionA'
- * '<S12>'  : 'lqg_test/Kalman Filter/DataTypeConversionB'
- * '<S13>'  : 'lqg_test/Kalman Filter/DataTypeConversionC'
- * '<S14>'  : 'lqg_test/Kalman Filter/DataTypeConversionD'
- * '<S15>'  : 'lqg_test/Kalman Filter/DataTypeConversionEnable'
- * '<S16>'  : 'lqg_test/Kalman Filter/DataTypeConversionG'
- * '<S17>'  : 'lqg_test/Kalman Filter/DataTypeConversionH'
- * '<S18>'  : 'lqg_test/Kalman Filter/DataTypeConversionN'
- * '<S19>'  : 'lqg_test/Kalman Filter/DataTypeConversionP'
- * '<S20>'  : 'lqg_test/Kalman Filter/DataTypeConversionP0'
- * '<S21>'  : 'lqg_test/Kalman Filter/DataTypeConversionQ'
- * '<S22>'  : 'lqg_test/Kalman Filter/DataTypeConversionR'
- * '<S23>'  : 'lqg_test/Kalman Filter/DataTypeConversionX'
- * '<S24>'  : 'lqg_test/Kalman Filter/DataTypeConversionX0'
- * '<S25>'  : 'lqg_test/Kalman Filter/DataTypeConversionu'
- * '<S26>'  : 'lqg_test/Kalman Filter/MemoryP'
- * '<S27>'  : 'lqg_test/Kalman Filter/Observer'
- * '<S28>'  : 'lqg_test/Kalman Filter/ReducedQRN'
- * '<S29>'  : 'lqg_test/Kalman Filter/Reshapeyhat'
- * '<S30>'  : 'lqg_test/Kalman Filter/ScalarExpansionP0'
- * '<S31>'  : 'lqg_test/Kalman Filter/ScalarExpansionQ'
- * '<S32>'  : 'lqg_test/Kalman Filter/ScalarExpansionR'
- * '<S33>'  : 'lqg_test/Kalman Filter/UseCurrentEstimator'
- * '<S34>'  : 'lqg_test/Kalman Filter/checkA'
- * '<S35>'  : 'lqg_test/Kalman Filter/checkB'
- * '<S36>'  : 'lqg_test/Kalman Filter/checkC'
- * '<S37>'  : 'lqg_test/Kalman Filter/checkD'
- * '<S38>'  : 'lqg_test/Kalman Filter/checkEnable'
- * '<S39>'  : 'lqg_test/Kalman Filter/checkG'
- * '<S40>'  : 'lqg_test/Kalman Filter/checkH'
- * '<S41>'  : 'lqg_test/Kalman Filter/checkN'
- * '<S42>'  : 'lqg_test/Kalman Filter/checkP0'
- * '<S43>'  : 'lqg_test/Kalman Filter/checkQ'
- * '<S44>'  : 'lqg_test/Kalman Filter/checkR'
- * '<S45>'  : 'lqg_test/Kalman Filter/checkReset'
- * '<S46>'  : 'lqg_test/Kalman Filter/checkX0'
- * '<S47>'  : 'lqg_test/Kalman Filter/checku'
- * '<S48>'  : 'lqg_test/Kalman Filter/checky'
- * '<S49>'  : 'lqg_test/Kalman Filter/CalculatePL/DataTypeConversionL'
- * '<S50>'  : 'lqg_test/Kalman Filter/CalculatePL/DataTypeConversionM'
- * '<S51>'  : 'lqg_test/Kalman Filter/CalculatePL/DataTypeConversionP'
- * '<S52>'  : 'lqg_test/Kalman Filter/CalculatePL/DataTypeConversionZ'
- * '<S53>'  : 'lqg_test/Kalman Filter/CalculatePL/Ground'
- * '<S54>'  : 'lqg_test/Kalman Filter/CalculateYhat/Ground'
- * '<S55>'  : 'lqg_test/Kalman Filter/CovarianceOutputConfigurator/decideOutput'
- * '<S56>'  : 'lqg_test/Kalman Filter/CovarianceOutputConfigurator/decideOutput/SqrtUsedFcn'
- * '<S57>'  : 'lqg_test/Kalman Filter/Observer/MeasurementUpdate'
- * '<S58>'  : 'lqg_test/Kalman Filter/ReducedQRN/Ground'
- * '<S59>'  : 'lqg_test/Rotary Pendulum Interface/Counts to Angles1'
- * '<S60>'  : 'lqg_test/Rotary Pendulum Interface/State X1'
- * '<S61>'  : 'lqg_test/Rotary Pendulum Interface/State X1/Full Angle to Inverted'
- * '<S62>'  : 'lqg_test/Swing-Up/Er (mJ)'
- * '<S63>'  : 'lqg_test/Swing-Up/Impulse'
- * '<S64>'  : 'lqg_test/Swing-Up/Swing-Up Control'
- * '<S65>'  : 'lqg_test/Swing-Up/ke (m//s//J)'
- * '<S66>'  : 'lqg_test/Swing-Up/Swing-Up Control/Energy-Based Swing-Up Control'
- * '<S67>'  : 'lqg_test/Swing-Up/Swing-Up Control/Energy-Based Swing-Up Control/Pendulum Energy'
- * '<S68>'  : 'lqg_test/Swing-Up/Swing-Up Control/Energy-Based Swing-Up Control/User Specified Acceleration Limit'
+ * '<S6>'   : 'lqg_test/Radians to Degrees2'
+ * '<S7>'   : 'lqg_test/Rotary Pendulum Interface'
+ * '<S8>'   : 'lqg_test/Swing-Up'
+ * '<S9>'   : 'lqg_test/Kalman Filter/CalculatePL'
+ * '<S10>'  : 'lqg_test/Kalman Filter/CalculateYhat'
+ * '<S11>'  : 'lqg_test/Kalman Filter/CovarianceOutputConfigurator'
+ * '<S12>'  : 'lqg_test/Kalman Filter/DataTypeConversionA'
+ * '<S13>'  : 'lqg_test/Kalman Filter/DataTypeConversionB'
+ * '<S14>'  : 'lqg_test/Kalman Filter/DataTypeConversionC'
+ * '<S15>'  : 'lqg_test/Kalman Filter/DataTypeConversionD'
+ * '<S16>'  : 'lqg_test/Kalman Filter/DataTypeConversionEnable'
+ * '<S17>'  : 'lqg_test/Kalman Filter/DataTypeConversionG'
+ * '<S18>'  : 'lqg_test/Kalman Filter/DataTypeConversionH'
+ * '<S19>'  : 'lqg_test/Kalman Filter/DataTypeConversionN'
+ * '<S20>'  : 'lqg_test/Kalman Filter/DataTypeConversionP'
+ * '<S21>'  : 'lqg_test/Kalman Filter/DataTypeConversionP0'
+ * '<S22>'  : 'lqg_test/Kalman Filter/DataTypeConversionQ'
+ * '<S23>'  : 'lqg_test/Kalman Filter/DataTypeConversionR'
+ * '<S24>'  : 'lqg_test/Kalman Filter/DataTypeConversionX'
+ * '<S25>'  : 'lqg_test/Kalman Filter/DataTypeConversionX0'
+ * '<S26>'  : 'lqg_test/Kalman Filter/DataTypeConversionu'
+ * '<S27>'  : 'lqg_test/Kalman Filter/MemoryP'
+ * '<S28>'  : 'lqg_test/Kalman Filter/Observer'
+ * '<S29>'  : 'lqg_test/Kalman Filter/ReducedQRN'
+ * '<S30>'  : 'lqg_test/Kalman Filter/Reshapeyhat'
+ * '<S31>'  : 'lqg_test/Kalman Filter/ScalarExpansionP0'
+ * '<S32>'  : 'lqg_test/Kalman Filter/ScalarExpansionQ'
+ * '<S33>'  : 'lqg_test/Kalman Filter/ScalarExpansionR'
+ * '<S34>'  : 'lqg_test/Kalman Filter/UseCurrentEstimator'
+ * '<S35>'  : 'lqg_test/Kalman Filter/checkA'
+ * '<S36>'  : 'lqg_test/Kalman Filter/checkB'
+ * '<S37>'  : 'lqg_test/Kalman Filter/checkC'
+ * '<S38>'  : 'lqg_test/Kalman Filter/checkD'
+ * '<S39>'  : 'lqg_test/Kalman Filter/checkEnable'
+ * '<S40>'  : 'lqg_test/Kalman Filter/checkG'
+ * '<S41>'  : 'lqg_test/Kalman Filter/checkH'
+ * '<S42>'  : 'lqg_test/Kalman Filter/checkN'
+ * '<S43>'  : 'lqg_test/Kalman Filter/checkP0'
+ * '<S44>'  : 'lqg_test/Kalman Filter/checkQ'
+ * '<S45>'  : 'lqg_test/Kalman Filter/checkR'
+ * '<S46>'  : 'lqg_test/Kalman Filter/checkReset'
+ * '<S47>'  : 'lqg_test/Kalman Filter/checkX0'
+ * '<S48>'  : 'lqg_test/Kalman Filter/checku'
+ * '<S49>'  : 'lqg_test/Kalman Filter/checky'
+ * '<S50>'  : 'lqg_test/Kalman Filter/CalculatePL/DataTypeConversionL'
+ * '<S51>'  : 'lqg_test/Kalman Filter/CalculatePL/DataTypeConversionM'
+ * '<S52>'  : 'lqg_test/Kalman Filter/CalculatePL/DataTypeConversionP'
+ * '<S53>'  : 'lqg_test/Kalman Filter/CalculatePL/DataTypeConversionZ'
+ * '<S54>'  : 'lqg_test/Kalman Filter/CalculatePL/Ground'
+ * '<S55>'  : 'lqg_test/Kalman Filter/CalculateYhat/Ground'
+ * '<S56>'  : 'lqg_test/Kalman Filter/CovarianceOutputConfigurator/decideOutput'
+ * '<S57>'  : 'lqg_test/Kalman Filter/CovarianceOutputConfigurator/decideOutput/SqrtUsedFcn'
+ * '<S58>'  : 'lqg_test/Kalman Filter/Observer/MeasurementUpdate'
+ * '<S59>'  : 'lqg_test/Kalman Filter/ReducedQRN/Ground'
+ * '<S60>'  : 'lqg_test/Rotary Pendulum Interface/Counts to Angles1'
+ * '<S61>'  : 'lqg_test/Rotary Pendulum Interface/State X1'
+ * '<S62>'  : 'lqg_test/Rotary Pendulum Interface/State X1/Full Angle to Inverted'
+ * '<S63>'  : 'lqg_test/Swing-Up/Er (mJ)'
+ * '<S64>'  : 'lqg_test/Swing-Up/Impulse'
+ * '<S65>'  : 'lqg_test/Swing-Up/Swing-Up Control'
+ * '<S66>'  : 'lqg_test/Swing-Up/ke (m//s//J)'
+ * '<S67>'  : 'lqg_test/Swing-Up/Swing-Up Control/Energy-Based Swing-Up Control'
+ * '<S68>'  : 'lqg_test/Swing-Up/Swing-Up Control/Energy-Based Swing-Up Control/Pendulum Energy'
+ * '<S69>'  : 'lqg_test/Swing-Up/Swing-Up Control/Energy-Based Swing-Up Control/User Specified Acceleration Limit'
  */
 #endif                                 /* RTW_HEADER_lqg_test_h_ */

@@ -7,9 +7,9 @@
  *
  * Code generation for model "lqg_test".
  *
- * Model version              : 6.7
+ * Model version              : 6.8
  * Simulink Coder version : 9.6 (R2021b) 14-May-2021
- * C source code generated on : Mon Apr 27 16:35:31 2026
+ * C source code generated on : Thu May  7 14:39:39 2026
  *
  * Target selection: quarc_win64.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -104,9 +104,10 @@ void lqg_test_output(void)
   /* local block i/o variables */
   real_T rtb_HILReadEncoderTimebase_o1;
   real_T rtb_alpha;
-  __m128d tmp_0;
-  __m128d tmp_1;
+  __m128d tmp_4;
+  __m128d tmp_5;
   real_T tmp[2];
+  real_T rtb_Energy;
   real_T rtb_Gain1;
   int32_T i;
   if (rtmIsMajorTimeStep(lqg_test_M)) {
@@ -131,7 +132,7 @@ void lqg_test_output(void)
   /* Reset subsysRan breadcrumbs */
   srClearBC(lqg_test_DW.MeasurementUpdate_SubsysRanBC);
   if (rtmIsMajorTimeStep(lqg_test_M)) {
-    /* S-Function (hil_read_encoder_timebase_block): '<S6>/HIL Read Encoder Timebase' */
+    /* S-Function (hil_read_encoder_timebase_block): '<S7>/HIL Read Encoder Timebase' */
 
     /* S-Function Block: lqg_test/Rotary Pendulum Interface/HIL Read Encoder Timebase (hil_read_encoder_timebase_block) */
     {
@@ -151,18 +152,18 @@ void lqg_test_output(void)
       }
     }
 
-    /* Gain: '<S59>/Pendulum:  counts to rad' */
+    /* Gain: '<S60>/Pendulum:  counts to rad' */
     lqg_test_B.Pendulumcountstorad = lqg_test_P.Pendulumcountstorad_Gain *
       rtb_alpha;
 
     /* Abs: '<Root>/|alpha|' incorporates:
-     *  Constant: '<S61>/Constant2'
-     *  Math: '<S61>/Math Function'
+     *  Constant: '<S62>/Constant2'
+     *  Math: '<S62>/Math Function'
      */
     rtb_alpha = rt_modd_snf(lqg_test_B.Pendulumcountstorad,
       lqg_test_P.Constant2_Value);
 
-    /* Bias: '<S61>/Bias' */
+    /* Bias: '<S62>/Bias' */
     lqg_test_B.Bias = rtb_alpha + lqg_test_P.Bias_Bias;
 
     /* Abs: '<Root>/|alpha|' */
@@ -177,17 +178,17 @@ void lqg_test_output(void)
     /* DataTypeConversion: '<S3>/DataTypeConversionReset' */
     lqg_test_B.DataTypeConversionReset = (lqg_test_B.Compare != 0);
 
-    /* Gain: '<S59>/Arm: counts to rad' */
+    /* Gain: '<S60>/Arm: counts to rad' */
     lqg_test_B.Armcountstorad = lqg_test_P.Armcountstorad_Gain *
       rtb_HILReadEncoderTimebase_o1;
   }
 
-  /* TransferFcn: '<S60>/theta_dot' */
+  /* TransferFcn: '<S61>/theta_dot' */
   lqg_test_B.theta_dot = 0.0;
   lqg_test_B.theta_dot += lqg_test_P.theta_dot_C * lqg_test_X.theta_dot_CSTATE;
   lqg_test_B.theta_dot += lqg_test_P.theta_dot_D * lqg_test_B.Armcountstorad;
 
-  /* TransferFcn: '<S60>/alpha_dot' */
+  /* TransferFcn: '<S61>/alpha_dot' */
   lqg_test_B.alpha_dot = 0.0;
   lqg_test_B.alpha_dot += lqg_test_P.alpha_dot_C * lqg_test_X.alpha_dot_CSTATE;
   lqg_test_B.alpha_dot += lqg_test_P.alpha_dot_D *
@@ -202,10 +203,9 @@ void lqg_test_output(void)
   /* Integrator: '<S3>/MemoryX' */
   if (rtmIsMajorTimeStep(lqg_test_M)) {
     boolean_T didZcEventOccur;
-    didZcEventOccur = (((lqg_test_PrevZCX.MemoryX_Reset_ZCE == POS_ZCSIG) !=
-                        (int32_T)lqg_test_B.DataTypeConversionReset) &&
-                       (lqg_test_PrevZCX.MemoryX_Reset_ZCE !=
-                        UNINITIALIZED_ZCSIG));
+    didZcEventOccur = (((lqg_test_PrevZCX.MemoryX_Reset_ZCE == 1) != (int32_T)
+                        lqg_test_B.DataTypeConversionReset) &&
+                       (lqg_test_PrevZCX.MemoryX_Reset_ZCE != 3));
     lqg_test_PrevZCX.MemoryX_Reset_ZCE = lqg_test_B.DataTypeConversionReset;
 
     /* evaluate zero-crossings */
@@ -225,6 +225,14 @@ void lqg_test_output(void)
   if (rtmIsMajorTimeStep(lqg_test_M)) {
   }
 
+  /* Gain: '<S6>/Gain' incorporates:
+   *  Integrator: '<S3>/MemoryX'
+   */
+  lqg_test_B.Gain_m[0] = lqg_test_P.Gain_Gain_i * lqg_test_B.alpha_dot;
+  lqg_test_B.Gain_m[1] = lqg_test_P.Gain_Gain_i * lqg_test_X.MemoryX_CSTATE[3];
+  if (rtmIsMajorTimeStep(lqg_test_M)) {
+  }
+
   /* Gain: '<S1>/Gain1' incorporates:
    *  Gain: '<Root>/Gain'
    *  SignalGenerator: '<Root>/Signal Generator'
@@ -241,29 +249,158 @@ void lqg_test_output(void)
   lqg_test_B.Gain_b[1] = lqg_test_P.Gain_Gain_a * lqg_test_B.Armcountstorad;
   lqg_test_B.Gain_b[2] = lqg_test_P.Gain_Gain_a * lqg_test_X.MemoryX_CSTATE[0];
   if (rtmIsMajorTimeStep(lqg_test_M)) {
+    /* Gain: '<S66>/Slider Gain' incorporates:
+     *  Constant: '<S8>/Constant'
+     */
+    lqg_test_B.SliderGain = lqg_test_P.kemsJ_gain * lqg_test_P.Constant_Value;
+
+    /* Trigonometry: '<S68>/cos(alpha)' incorporates:
+     *  Trigonometry: '<S67>/cos(alpha)'
+     */
+    rtb_Energy = cos(lqg_test_B.Pendulumcountstorad);
+
+    /* Gain: '<S68>/Pend Torque (N.m)' incorporates:
+     *  Constant: '<S68>/Constant'
+     *  Sum: '<S68>/Sum1'
+     *  Trigonometry: '<S68>/cos(alpha)'
+     */
+    lqg_test_B.PendTorqueNm = lqg_test_P.mp * lqg_test_P.g * lqg_test_P.l *
+      (lqg_test_P.Constant_Value_o - rtb_Energy);
+
+    /* Gain: '<S65>/mJ to J' incorporates:
+     *  Constant: '<S8>/Constant'
+     *  Gain: '<S63>/Slider Gain'
+     */
+    lqg_test_B.mJtoJ = lqg_test_P.ErmJ_gain * lqg_test_P.Constant_Value *
+      lqg_test_P.mJtoJ_Gain;
+
+    /* Trigonometry: '<S67>/cos(alpha)' */
+    lqg_test_B.cosalpha = rtb_Energy;
+
+    /* UnaryMinus: '<S67>/Unary Minus' incorporates:
+     *  Constant: '<S8>/u_max'
+     */
+    lqg_test_B.UnaryMinus = -lqg_test_P.u_max_Value;
   }
 
-  /* MultiPortSwitch: '<Root>/Enable Balance Control Switch' */
+  /* Sum: '<S68>/Energy' incorporates:
+   *  Gain: '<S68>/Pend Inertia (kg.m^2)'
+   *  Math: '<S68>/alpha_dot^2'
+   */
+  rtb_Energy = lqg_test_P.Jp_cm / 2.0 * (lqg_test_B.alpha_dot *
+    lqg_test_B.alpha_dot) + lqg_test_B.PendTorqueNm;
+
+  /* MultiPortSwitch: '<Root>/Enable Balance Control Switch' incorporates:
+   *  Constant: '<Root>/Constant'
+   *  Gain: '<Root>/u = -K*x'
+   *  Switch: '<Root>/1 = true, 0 = estimate'
+   */
   if (lqg_test_B.Compare == 0) {
-    /* MultiPortSwitch: '<Root>/Enable Balance Control Switch' incorporates:
-     *  Constant: '<Root>/Constant'
+    real_T tmp_0;
+    real_T tmp_1;
+
+    /* Product: '<S67>/alpha_dot*cos(alpha)' */
+    rtb_Gain1 = lqg_test_B.cosalpha * lqg_test_B.alpha_dot;
+
+    /* Signum: '<S67>/Sign' */
+    if (rtb_Gain1 < 0.0) {
+      rtb_Gain1 = -1.0;
+    } else if (rtb_Gain1 > 0.0) {
+      rtb_Gain1 = 1.0;
+    } else if (rtb_Gain1 == 0.0) {
+      rtb_Gain1 = 0.0;
+    } else {
+      rtb_Gain1 = (rtNaN);
+    }
+
+    /* End of Signum: '<S67>/Sign' */
+
+    /* Product: '<S67>/Product' incorporates:
+     *  Product: '<S67>/(E-Er)*sign(a_dot*cos(a))'
+     *  Sum: '<S67>/E-Er'
      */
-    lqg_test_B.EnableBalanceControlSwitch = lqg_test_P.Constant_Value;
+    rtb_Gain1 = (rtb_Energy - lqg_test_B.mJtoJ) * rtb_Gain1 *
+      lqg_test_B.SliderGain;
+
+    /* Switch: '<S69>/Switch2' incorporates:
+     *  Constant: '<S8>/u_max'
+     *  RelationalOperator: '<S69>/LowerRelop1'
+     *  RelationalOperator: '<S69>/UpperRelop'
+     *  Switch: '<S69>/Switch'
+     */
+    if (rtb_Gain1 > lqg_test_P.u_max_Value) {
+      rtb_Gain1 = lqg_test_P.u_max_Value;
+    } else if (rtb_Gain1 < lqg_test_B.UnaryMinus) {
+      /* Switch: '<S69>/Switch' */
+      rtb_Gain1 = lqg_test_B.UnaryMinus;
+    }
+
+    /* End of Switch: '<S69>/Switch2' */
+
+    /* Step: '<S64>/Step' incorporates:
+     *  Step: '<S64>/Step1'
+     */
+    tmp_0 = lqg_test_M->Timing.t[0];
+    if (tmp_0 < lqg_test_P.Step_Time) {
+      tmp_1 = lqg_test_P.Step_Y0;
+    } else {
+      tmp_1 = lqg_test_P.Step_YFinal;
+    }
+
+    /* End of Step: '<S64>/Step' */
+
+    /* Step: '<S64>/Step1' */
+    if (tmp_0 < lqg_test_P.Step1_Time) {
+      tmp_0 = lqg_test_P.Step1_Y0;
+    } else {
+      tmp_0 = lqg_test_P.Step1_YFinal;
+    }
+
+    /* MultiPortSwitch: '<Root>/Enable Balance Control Switch' incorporates:
+     *  Gain: '<S64>/Impulse Amplitude'
+     *  Gain: '<S65>/Acceleration to Torque'
+     *  Gain: '<S65>/Torque to Voltage'
+     *  Sum: '<S64>/Sum'
+     *  Sum: '<S8>/Sum1'
+     */
+    lqg_test_B.EnableBalanceControlSwitch = lqg_test_P.mr * lqg_test_P.r *
+      rtb_Gain1 * (lqg_test_P.Rm / lqg_test_P.kt) + (tmp_1 + tmp_0) *
+      lqg_test_P.ImpulseAmplitude_Gain;
   } else {
+    real_T tmp_0;
+    real_T tmp_1;
+    real_T tmp_2;
+    real_T tmp_3;
+    if (lqg_test_P.Constant_Value_g > lqg_test_P.utrue0estimate_Threshold) {
+      /* Gain: '<Root>/u = -K*x' incorporates:
+       *  Switch: '<Root>/1 = true, 0 = estimate'
+       */
+      tmp_0 = lqg_test_B.Armcountstorad;
+      tmp_1 = lqg_test_B.Bias;
+      tmp_2 = lqg_test_B.theta_dot;
+      tmp_3 = lqg_test_B.alpha_dot;
+    } else {
+      /* Gain: '<Root>/u = -K*x' incorporates:
+       *  Integrator: '<S3>/MemoryX'
+       *  Switch: '<Root>/1 = true, 0 = estimate'
+       */
+      tmp_0 = lqg_test_X.MemoryX_CSTATE[0];
+      tmp_1 = lqg_test_X.MemoryX_CSTATE[1];
+      tmp_2 = lqg_test_X.MemoryX_CSTATE[2];
+      tmp_3 = lqg_test_X.MemoryX_CSTATE[3];
+    }
+
     /* MultiPortSwitch: '<Root>/Enable Balance Control Switch' incorporates:
      *  Gain: '<Root>/Convert to Vector'
      *  Gain: '<Root>/u = -K*x'
-     *  Integrator: '<S3>/MemoryX'
      *  Sum: '<Root>/Sum'
      */
     lqg_test_B.EnableBalanceControlSwitch = (((lqg_test_P.ConverttoVector_Gain[0]
-      * rtb_Gain1 - lqg_test_X.MemoryX_CSTATE[0]) * lqg_test_P.K_new[0] +
-      (lqg_test_P.ConverttoVector_Gain[1] * rtb_Gain1 -
-       lqg_test_X.MemoryX_CSTATE[1]) * lqg_test_P.K_new[1]) +
-      (lqg_test_P.ConverttoVector_Gain[2] * rtb_Gain1 -
-       lqg_test_X.MemoryX_CSTATE[2]) * lqg_test_P.K_new[2]) +
-      (lqg_test_P.ConverttoVector_Gain[3] * rtb_Gain1 -
-       lqg_test_X.MemoryX_CSTATE[3]) * lqg_test_P.K_new[3];
+      * rtb_Gain1 - tmp_0) * lqg_test_P.K_new[0] +
+      (lqg_test_P.ConverttoVector_Gain[1] * rtb_Gain1 - tmp_1) *
+      lqg_test_P.K_new[1]) + (lqg_test_P.ConverttoVector_Gain[2] * rtb_Gain1 -
+      tmp_2) * lqg_test_P.K_new[2]) + (lqg_test_P.ConverttoVector_Gain[3] *
+      rtb_Gain1 - tmp_3) * lqg_test_P.K_new[3];
   }
 
   /* End of MultiPortSwitch: '<Root>/Enable Balance Control Switch' */
@@ -272,16 +409,16 @@ void lqg_test_output(void)
     lqg_test_B.Reshapey[0] = lqg_test_B.Armcountstorad;
     lqg_test_B.Reshapey[1] = lqg_test_B.Bias;
 
-    /* Outputs for Enabled SubSystem: '<S27>/MeasurementUpdate' incorporates:
-     *  EnablePort: '<S57>/Enable'
+    /* Outputs for Enabled SubSystem: '<S28>/MeasurementUpdate' incorporates:
+     *  EnablePort: '<S58>/Enable'
      */
     if (rtmIsMajorTimeStep(lqg_test_M)) {
       /* Constant: '<S3>/Enable' */
       if (lqg_test_P.Enable_Value) {
         lqg_test_DW.MeasurementUpdate_MODE = true;
       } else if (lqg_test_DW.MeasurementUpdate_MODE) {
-        /* Disable for Product: '<S57>/Product3' incorporates:
-         *  Outport: '<S57>/L*(y[k]-yhat[k|k-1])'
+        /* Disable for Product: '<S58>/Product3' incorporates:
+         *  Outport: '<S58>/L*(y[k]-yhat[k|k-1])'
          */
         lqg_test_B.Product3[0] = lqg_test_P.Lykyhatkk1_Y0;
         lqg_test_B.Product3[1] = lqg_test_P.Lykyhatkk1_Y0;
@@ -293,65 +430,65 @@ void lqg_test_output(void)
       /* End of Constant: '<S3>/Enable' */
     }
 
-    /* End of Outputs for SubSystem: '<S27>/MeasurementUpdate' */
+    /* End of Outputs for SubSystem: '<S28>/MeasurementUpdate' */
   }
 
-  /* Outputs for Enabled SubSystem: '<S27>/MeasurementUpdate' incorporates:
-   *  EnablePort: '<S57>/Enable'
+  /* Outputs for Enabled SubSystem: '<S28>/MeasurementUpdate' incorporates:
+   *  EnablePort: '<S58>/Enable'
    */
   if (lqg_test_DW.MeasurementUpdate_MODE) {
     for (i = 0; i <= 0; i += 2) {
       /* Constant: '<S3>/C' incorporates:
-       *  Product: '<S57>/C[k]*xhat[k|k-1]'
+       *  Product: '<S58>/C[k]*xhat[k|k-1]'
        */
-      tmp_0 = _mm_loadu_pd(&lqg_test_P.C_Value[i]);
+      tmp_4 = _mm_loadu_pd(&lqg_test_P.C_Value[i]);
 
-      /* Sum: '<S57>/Sum' incorporates:
+      /* Sum: '<S58>/Sum' incorporates:
        *  Constant: '<S3>/C'
        *  Constant: '<S3>/D'
        *  Integrator: '<S3>/MemoryX'
-       *  Product: '<S57>/C[k]*xhat[k|k-1]'
-       *  Product: '<S57>/D[k]*u[k]'
+       *  Product: '<S58>/C[k]*xhat[k|k-1]'
+       *  Product: '<S58>/D[k]*u[k]'
        */
-      tmp_1 = _mm_loadu_pd(&lqg_test_B.Reshapey[i]);
-      _mm_storeu_pd(&tmp[i], _mm_sub_pd(tmp_1, _mm_add_pd(_mm_mul_pd
+      tmp_5 = _mm_loadu_pd(&lqg_test_B.Reshapey[i]);
+      _mm_storeu_pd(&tmp[i], _mm_sub_pd(tmp_5, _mm_add_pd(_mm_mul_pd
         (_mm_loadu_pd(&lqg_test_P.D_Value[i]), _mm_set1_pd
          (lqg_test_B.EnableBalanceControlSwitch)), _mm_add_pd(_mm_mul_pd
         (_mm_loadu_pd(&lqg_test_P.C_Value[i + 6]), _mm_set1_pd
          (lqg_test_X.MemoryX_CSTATE[3])), _mm_add_pd(_mm_mul_pd(_mm_loadu_pd
         (&lqg_test_P.C_Value[i + 4]), _mm_set1_pd(lqg_test_X.MemoryX_CSTATE[2])),
         _mm_add_pd(_mm_mul_pd(_mm_loadu_pd(&lqg_test_P.C_Value[i + 2]),
-        _mm_set1_pd(lqg_test_X.MemoryX_CSTATE[1])), _mm_add_pd(_mm_mul_pd(tmp_0,
+        _mm_set1_pd(lqg_test_X.MemoryX_CSTATE[1])), _mm_add_pd(_mm_mul_pd(tmp_4,
         _mm_set1_pd(lqg_test_X.MemoryX_CSTATE[0])), _mm_set1_pd(0.0))))))));
     }
 
     for (i = 0; i <= 2; i += 2) {
-      /* Product: '<S57>/Product3' incorporates:
-       *  Constant: '<S8>/KalmanGainL'
+      /* Product: '<S58>/Product3' incorporates:
+       *  Constant: '<S9>/KalmanGainL'
        */
       _mm_storeu_pd(&lqg_test_B.Product3[i], _mm_set1_pd(0.0));
 
-      /* Product: '<S57>/Product3' incorporates:
-       *  Constant: '<S8>/KalmanGainL'
+      /* Product: '<S58>/Product3' incorporates:
+       *  Constant: '<S9>/KalmanGainL'
        */
-      tmp_0 = _mm_loadu_pd(&lqg_test_B.Product3[i]);
+      tmp_4 = _mm_loadu_pd(&lqg_test_B.Product3[i]);
 
-      /* Product: '<S57>/Product3' incorporates:
-       *  Constant: '<S8>/KalmanGainL'
+      /* Product: '<S58>/Product3' incorporates:
+       *  Constant: '<S9>/KalmanGainL'
        */
       _mm_storeu_pd(&lqg_test_B.Product3[i], _mm_add_pd(_mm_mul_pd(_mm_loadu_pd(
-        &lqg_test_P.KalmanGainL_Value[i]), _mm_set1_pd(tmp[0])), tmp_0));
+        &lqg_test_P.KalmanGainL_Value[i]), _mm_set1_pd(tmp[0])), tmp_4));
 
-      /* Product: '<S57>/Product3' incorporates:
-       *  Constant: '<S8>/KalmanGainL'
+      /* Product: '<S58>/Product3' incorporates:
+       *  Constant: '<S9>/KalmanGainL'
        */
-      tmp_0 = _mm_loadu_pd(&lqg_test_B.Product3[i]);
+      tmp_4 = _mm_loadu_pd(&lqg_test_B.Product3[i]);
 
-      /* Product: '<S57>/Product3' incorporates:
-       *  Constant: '<S8>/KalmanGainL'
+      /* Product: '<S58>/Product3' incorporates:
+       *  Constant: '<S9>/KalmanGainL'
        */
       _mm_storeu_pd(&lqg_test_B.Product3[i], _mm_add_pd(_mm_mul_pd(_mm_loadu_pd(
-        &lqg_test_P.KalmanGainL_Value[i + 4]), _mm_set1_pd(tmp[1])), tmp_0));
+        &lqg_test_P.KalmanGainL_Value[i + 4]), _mm_set1_pd(tmp[1])), tmp_4));
     }
 
     if (rtmIsMajorTimeStep(lqg_test_M)) {
@@ -359,26 +496,26 @@ void lqg_test_output(void)
     }
   }
 
-  /* End of Outputs for SubSystem: '<S27>/MeasurementUpdate' */
+  /* End of Outputs for SubSystem: '<S28>/MeasurementUpdate' */
   for (i = 0; i <= 2; i += 2) {
     /* Constant: '<S3>/A' incorporates:
-     *  Product: '<S27>/A[k]*xhat[k|k-1]'
+     *  Product: '<S28>/A[k]*xhat[k|k-1]'
      */
-    tmp_0 = _mm_loadu_pd(&lqg_test_P.A_Value[i]);
+    tmp_4 = _mm_loadu_pd(&lqg_test_P.A_Value[i]);
 
-    /* Sum: '<S27>/Add' incorporates:
+    /* Sum: '<S28>/Add' incorporates:
      *  Constant: '<S3>/A'
-     *  Product: '<S27>/A[k]*xhat[k|k-1]'
-     *  Product: '<S57>/Product3'
+     *  Product: '<S28>/A[k]*xhat[k|k-1]'
+     *  Product: '<S58>/Product3'
      */
-    tmp_1 = _mm_loadu_pd(&lqg_test_B.Product3[i]);
+    tmp_5 = _mm_loadu_pd(&lqg_test_B.Product3[i]);
 
-    /* Sum: '<S27>/Add' incorporates:
+    /* Sum: '<S28>/Add' incorporates:
      *  Constant: '<S3>/A'
      *  Constant: '<S3>/B'
      *  Integrator: '<S3>/MemoryX'
-     *  Product: '<S27>/A[k]*xhat[k|k-1]'
-     *  Product: '<S27>/B[k]*u[k]'
+     *  Product: '<S28>/A[k]*xhat[k|k-1]'
+     *  Product: '<S28>/B[k]*u[k]'
      */
     _mm_storeu_pd(&lqg_test_B.Add[i], _mm_add_pd(_mm_add_pd(_mm_mul_pd
       (_mm_loadu_pd(&lqg_test_P.B_Value[i]), _mm_set1_pd
@@ -387,15 +524,15 @@ void lqg_test_output(void)
        (lqg_test_X.MemoryX_CSTATE[3])), _mm_add_pd(_mm_mul_pd(_mm_loadu_pd
       (&lqg_test_P.A_Value[i + 8]), _mm_set1_pd(lqg_test_X.MemoryX_CSTATE[2])),
       _mm_add_pd(_mm_mul_pd(_mm_loadu_pd(&lqg_test_P.A_Value[i + 4]),
-      _mm_set1_pd(lqg_test_X.MemoryX_CSTATE[1])), _mm_add_pd(_mm_mul_pd(tmp_0,
-      _mm_set1_pd(lqg_test_X.MemoryX_CSTATE[0])), _mm_set1_pd(0.0)))))), tmp_1));
+      _mm_set1_pd(lqg_test_X.MemoryX_CSTATE[1])), _mm_add_pd(_mm_mul_pd(tmp_4,
+      _mm_set1_pd(lqg_test_X.MemoryX_CSTATE[0])), _mm_set1_pd(0.0)))))), tmp_5));
   }
 
-  /* Gain: '<S6>/For +ve CCW' */
+  /* Gain: '<S7>/For +ve CCW' */
   lqg_test_B.ForveCCW = lqg_test_P.ForveCCW_Gain *
     lqg_test_B.EnableBalanceControlSwitch;
   if (rtmIsMajorTimeStep(lqg_test_M)) {
-    /* S-Function (hil_write_analog_block): '<S6>/HIL Write Analog' */
+    /* S-Function (hil_write_analog_block): '<S7>/HIL Write Analog' */
 
     /* S-Function Block: lqg_test/Rotary Pendulum Interface/HIL Write Analog (hil_write_analog_block) */
     {
@@ -408,23 +545,10 @@ void lqg_test_output(void)
         rtmSetErrorStatus(lqg_test_M, _rt_error_message);
       }
     }
-
-    /* Gain: '<S67>/Pend Torque (N.m)' incorporates:
-     *  Constant: '<S67>/Constant'
-     *  Sum: '<S67>/Sum1'
-     *  Trigonometry: '<S67>/cos(alpha)'
-     */
-    lqg_test_B.PendTorqueNm = lqg_test_P.mp * lqg_test_P.g * lqg_test_P.l *
-      (lqg_test_P.Constant_Value_o - cos(lqg_test_B.Pendulumcountstorad));
   }
 
-  /* Gain: '<S64>/J to mJ' incorporates:
-   *  Gain: '<S67>/Pend Inertia (kg.m^2)'
-   *  Math: '<S67>/alpha_dot^2'
-   *  Sum: '<S67>/Energy'
-   */
-  lqg_test_B.JtomJ = (lqg_test_P.Jp_cm / 2.0 * (lqg_test_B.alpha_dot *
-    lqg_test_B.alpha_dot) + lqg_test_B.PendTorqueNm) * lqg_test_P.JtomJ_Gain;
+  /* Gain: '<S65>/J to mJ' */
+  lqg_test_B.JtomJ = lqg_test_P.JtomJ_Gain * rtb_Energy;
   if (rtmIsMajorTimeStep(lqg_test_M)) {
   }
 }
@@ -479,13 +603,13 @@ void lqg_test_derivatives(void)
   XDot_lqg_test_T *_rtXdot;
   _rtXdot = ((XDot_lqg_test_T *) lqg_test_M->derivs);
 
-  /* Derivatives for TransferFcn: '<S60>/theta_dot' */
+  /* Derivatives for TransferFcn: '<S61>/theta_dot' */
   _rtXdot->theta_dot_CSTATE = 0.0;
   _rtXdot->theta_dot_CSTATE += lqg_test_P.theta_dot_A *
     lqg_test_X.theta_dot_CSTATE;
   _rtXdot->theta_dot_CSTATE += lqg_test_B.Armcountstorad;
 
-  /* Derivatives for TransferFcn: '<S60>/alpha_dot' */
+  /* Derivatives for TransferFcn: '<S61>/alpha_dot' */
   _rtXdot->alpha_dot_CSTATE = 0.0;
   _rtXdot->alpha_dot_CSTATE += lqg_test_P.alpha_dot_A *
     lqg_test_X.alpha_dot_CSTATE;
@@ -516,15 +640,6 @@ void lqg_test_initialize(void)
     }
 
     is_switching = false;
-    result = hil_set_card_specific_options(lqg_test_DW.HILInitialize_Card, " ",
-      2);
-    if (result < 0) {
-      msg_get_error_messageA(NULL, result, _rt_error_message, sizeof
-        (_rt_error_message));
-      rtmSetErrorStatus(lqg_test_M, _rt_error_message);
-      return;
-    }
-
     result = hil_watchdog_clear(lqg_test_DW.HILInitialize_Card);
     if (result < 0 && result != -QERR_HIL_WATCHDOG_CLEAR) {
       msg_get_error_messageA(NULL, result, _rt_error_message, sizeof
@@ -678,7 +793,7 @@ void lqg_test_initialize(void)
     }
   }
 
-  /* Start for S-Function (hil_read_encoder_timebase_block): '<S6>/HIL Read Encoder Timebase' */
+  /* Start for S-Function (hil_read_encoder_timebase_block): '<S7>/HIL Read Encoder Timebase' */
 
   /* S-Function Block: lqg_test/Rotary Pendulum Interface/HIL Read Encoder Timebase (hil_read_encoder_timebase_block) */
   {
@@ -700,16 +815,16 @@ void lqg_test_initialize(void)
     }
   }
 
-  /* Start for Enabled SubSystem: '<S27>/MeasurementUpdate' */
+  /* Start for Enabled SubSystem: '<S28>/MeasurementUpdate' */
   lqg_test_DW.MeasurementUpdate_MODE = false;
 
-  /* End of Start for SubSystem: '<S27>/MeasurementUpdate' */
+  /* End of Start for SubSystem: '<S28>/MeasurementUpdate' */
   lqg_test_PrevZCX.MemoryX_Reset_ZCE = UNINITIALIZED_ZCSIG;
 
-  /* InitializeConditions for TransferFcn: '<S60>/theta_dot' */
+  /* InitializeConditions for TransferFcn: '<S61>/theta_dot' */
   lqg_test_X.theta_dot_CSTATE = 0.0;
 
-  /* InitializeConditions for TransferFcn: '<S60>/alpha_dot' */
+  /* InitializeConditions for TransferFcn: '<S61>/alpha_dot' */
   lqg_test_X.alpha_dot_CSTATE = 0.0;
 
   /* InitializeConditions for Integrator: '<S3>/MemoryX' */
@@ -724,16 +839,16 @@ void lqg_test_initialize(void)
 
   /* End of InitializeConditions for Integrator: '<S3>/MemoryX' */
 
-  /* SystemInitialize for Enabled SubSystem: '<S27>/MeasurementUpdate' */
-  /* SystemInitialize for Product: '<S57>/Product3' incorporates:
-   *  Outport: '<S57>/L*(y[k]-yhat[k|k-1])'
+  /* SystemInitialize for Enabled SubSystem: '<S28>/MeasurementUpdate' */
+  /* SystemInitialize for Product: '<S58>/Product3' incorporates:
+   *  Outport: '<S58>/L*(y[k]-yhat[k|k-1])'
    */
   lqg_test_B.Product3[0] = lqg_test_P.Lykyhatkk1_Y0;
   lqg_test_B.Product3[1] = lqg_test_P.Lykyhatkk1_Y0;
   lqg_test_B.Product3[2] = lqg_test_P.Lykyhatkk1_Y0;
   lqg_test_B.Product3[3] = lqg_test_P.Lykyhatkk1_Y0;
 
-  /* End of SystemInitialize for SubSystem: '<S27>/MeasurementUpdate' */
+  /* End of SystemInitialize for SubSystem: '<S28>/MeasurementUpdate' */
 
   /* set "at time zero" to false */
   if (rtmIsFirstInitCond(lqg_test_M)) {
@@ -980,21 +1095,23 @@ RT_MODEL_lqg_test_T *lqg_test(void)
   rtmSetFirstInitCond(lqg_test_M, 1);
 
   /* External mode info */
-  lqg_test_M->Sizes.checksums[0] = (1280752382U);
-  lqg_test_M->Sizes.checksums[1] = (2434010662U);
-  lqg_test_M->Sizes.checksums[2] = (3602918U);
-  lqg_test_M->Sizes.checksums[3] = (222236076U);
+  lqg_test_M->Sizes.checksums[0] = (1940526557U);
+  lqg_test_M->Sizes.checksums[1] = (2159894852U);
+  lqg_test_M->Sizes.checksums[2] = (1823604605U);
+  lqg_test_M->Sizes.checksums[3] = (2186527533U);
 
   {
     static const sysRanDType rtAlwaysEnabled = SUBSYS_RAN_BC_ENABLE;
     static RTWExtModeInfo rt_ExtModeInfo;
-    static const sysRanDType *systemRan[4];
+    static const sysRanDType *systemRan[6];
     lqg_test_M->extModeInfo = (&rt_ExtModeInfo);
     rteiSetSubSystemActiveVectorAddresses(&rt_ExtModeInfo, systemRan);
     systemRan[0] = &rtAlwaysEnabled;
     systemRan[1] = &rtAlwaysEnabled;
     systemRan[2] = (sysRanDType *)&lqg_test_DW.MeasurementUpdate_SubsysRanBC;
     systemRan[3] = &rtAlwaysEnabled;
+    systemRan[4] = &rtAlwaysEnabled;
+    systemRan[5] = &rtAlwaysEnabled;
     rteiSetModelMappingInfoPtr(lqg_test_M->extModeInfo,
       &lqg_test_M->SpecialInfo.mappingInfo);
     rteiSetChecksumsPtr(lqg_test_M->extModeInfo, lqg_test_M->Sizes.checksums);
@@ -1052,9 +1169,9 @@ RT_MODEL_lqg_test_T *lqg_test(void)
   lqg_test_M->Sizes.numU = (0);        /* Number of model inputs */
   lqg_test_M->Sizes.sysDirFeedThru = (0);/* The model is not direct feedthrough */
   lqg_test_M->Sizes.numSampTimes = (2);/* Number of sample times */
-  lqg_test_M->Sizes.numBlocks = (61);  /* Number of blocks */
-  lqg_test_M->Sizes.numBlockIO = (17); /* Number of block outputs */
-  lqg_test_M->Sizes.numBlockPrms = (182);/* Sum of parameter "widths" */
+  lqg_test_M->Sizes.numBlocks = (89);  /* Number of blocks */
+  lqg_test_M->Sizes.numBlockIO = (22); /* Number of block outputs */
+  lqg_test_M->Sizes.numBlockPrms = (200);/* Sum of parameter "widths" */
   return lqg_test_M;
 }
 
