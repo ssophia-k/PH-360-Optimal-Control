@@ -7,9 +7,9 @@
  *
  * Code generation for model "lqg_test".
  *
- * Model version              : 6.8
+ * Model version              : 6.9
  * Simulink Coder version : 9.6 (R2021b) 14-May-2021
- * C source code generated on : Thu May  7 14:39:39 2026
+ * C source code generated on : Thu May  7 15:06:21 2026
  *
  * Target selection: quarc_win64.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -26,6 +26,8 @@
 
 /* A global buffer for storing error messages (defined in quanser_common library) */
 EXTERN char _rt_error_message[512];
+extern real_T rt_urand_Upu32_Yd_f_pw_snf(uint32_T *u);
+extern real_T rt_nrand_Upu32_Yd_f_pw_snf(uint32_T *u);
 extern real_T rt_modd_snf(real_T u0, real_T u1);
 
 /* private model entry point functions */

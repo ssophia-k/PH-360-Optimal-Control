@@ -7,9 +7,9 @@
  *
  * Code generation for model "lqg_test".
  *
- * Model version              : 6.8
+ * Model version              : 6.9
  * Simulink Coder version : 9.6 (R2021b) 14-May-2021
- * C source code generated on : Thu May  7 14:39:39 2026
+ * C source code generated on : Thu May  7 15:06:21 2026
  *
  * Target selection: quarc_win64.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -72,14 +72,14 @@ static const char_T * rtDataTypeNames[] = {
 
 /* data type transitions for block I/O structure */
 static DataTypeTransition rtBTransitions[] = {
-  { (char_T *)(&lqg_test_B.Pendulumcountstorad), 0, 0, 34 },
+  { (char_T *)(&lqg_test_B.Pendulumcountstorad), 0, 0, 40 },
 
   { (char_T *)(&lqg_test_B.Compare), 3, 0, 1 },
 
   { (char_T *)(&lqg_test_B.DataTypeConversionReset), 8, 0, 1 }
   ,
 
-  { (char_T *)(&lqg_test_DW.HILInitialize_FilterFrequency[0]), 0, 0, 2 },
+  { (char_T *)(&lqg_test_DW.HILInitialize_FilterFrequency[0]), 0, 0, 4 },
 
   { (char_T *)(&lqg_test_DW.ToHostFile_PointsWritten), 15, 0, 1 },
 
@@ -87,11 +87,11 @@ static DataTypeTransition rtBTransitions[] = {
 
   { (char_T *)(&lqg_test_DW.HILReadEncoderTimebase_Task), 17, 0, 1 },
 
-  { (char_T *)(&lqg_test_DW.Pendulumdeg_PWORK.LoggedData), 11, 0, 8 },
+  { (char_T *)(&lqg_test_DW.Pendulumdeg_PWORK.LoggedData), 11, 0, 9 },
 
   { (char_T *)(&lqg_test_DW.HILInitialize_ClockModes), 6, 0, 8 },
 
-  { (char_T *)(&lqg_test_DW.ToHostFile_SamplesCount), 7, 0, 2 },
+  { (char_T *)(&lqg_test_DW.RandSeed), 7, 0, 4 },
 
   { (char_T *)(&lqg_test_DW.MemoryX_IWORK), 10, 0, 1 },
 
@@ -108,11 +108,11 @@ static DataTypeTransitionTable rtBTransTable = {
 
 /* data type transitions for Parameters structure */
 static DataTypeTransition rtPTransitions[] = {
-  { (char_T *)(&lqg_test_P.Jp_cm), 0, 0, 15 },
+  { (char_T *)(&lqg_test_P.Jp_cm), 0, 0, 23 },
 
   { (char_T *)(&lqg_test_P.HILWriteAnalog_channels), 7, 0, 1 },
 
-  { (char_T *)(&lqg_test_P.Lykyhatkk1_Y0), 0, 0, 111 },
+  { (char_T *)(&lqg_test_P.Lykyhatkk1_Y0), 0, 0, 118 },
 
   { (char_T *)(&lqg_test_P.HILInitialize_CKChannels), 6, 0, 4 },
 
