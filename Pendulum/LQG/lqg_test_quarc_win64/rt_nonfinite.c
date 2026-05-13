@@ -7,9 +7,9 @@
  *
  * Code generation for model "lqg_test".
  *
- * Model version              : 6.9
+ * Model version              : 6.10
  * Simulink Coder version : 9.6 (R2021b) 14-May-2021
- * C source code generated on : Thu May  7 15:06:21 2026
+ * C source code generated on : Wed May 13 14:56:22 2026
  *
  * Target selection: quarc_win64.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping

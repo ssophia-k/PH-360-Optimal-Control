@@ -2,7 +2,7 @@
 ## Makefile generated for component 'lqg_test'. 
 ## 
 ## Makefile     : lqg_test.mk
-## Generated on : Thu May 07 12:44:20 2026
+## Generated on : Wed May 13 14:34:20 2026
 ## Final product: $(RELATIVE_PATH_TO_ANCHOR)\lqg_test.rt-win64
 ## Product type : executable
 ## 
@@ -197,7 +197,7 @@ DEFINES = $(DEFINES_BUILD_ARGS) $(DEFINES_CUSTOM) $(DEFINES_OPTS) $(DEFINES_STAN
 ## SOURCE FILES
 ###########################################################################
 
-SRCS = $(START_DIR)\lqg_test_quarc_win64\lqg_test.c $(START_DIR)\lqg_test_quarc_win64\lqg_test_data.c $(START_DIR)\lqg_test_quarc_win64\lqg_test_main.c $(START_DIR)\lqg_test_quarc_win64\rtGetInf.c $(START_DIR)\lqg_test_quarc_win64\rtGetNaN.c $(START_DIR)\lqg_test_quarc_win64\rt_nonfinite.c $(MATLAB_ROOT)\rtw\c\src\rt_sim.c C:\PROGRA~1\Quanser\QUARC\quarc\src\ext_svr.c C:\PROGRA~1\Quanser\QUARC\quarc\src\updown.c C:\PROGRA~1\Quanser\QUARC\quarc\src\ext_work.c
+SRCS = $(START_DIR)\lqg_test_quarc_win64\lqg_test.c $(START_DIR)\lqg_test_quarc_win64\lqg_test_data.c $(START_DIR)\lqg_test_quarc_win64\lqg_test_main.c $(START_DIR)\lqg_test_quarc_win64\rtGetInf.c $(START_DIR)\lqg_test_quarc_win64\rtGetNaN.c $(START_DIR)\lqg_test_quarc_win64\rt_nonfinite.c $(START_DIR)\lqg_test_quarc_win64\rt_zcfcn.c $(MATLAB_ROOT)\rtw\c\src\rt_sim.c C:\PROGRA~1\Quanser\QUARC\quarc\src\ext_svr.c C:\PROGRA~1\Quanser\QUARC\quarc\src\updown.c C:\PROGRA~1\Quanser\QUARC\quarc\src\ext_work.c
 
 ALL_SRCS = $(SRCS)
 
@@ -205,7 +205,7 @@ ALL_SRCS = $(SRCS)
 ## OBJECTS
 ###########################################################################
 
-OBJS = lqg_test.obj lqg_test_data.obj lqg_test_main.obj rtGetInf.obj rtGetNaN.obj rt_nonfinite.obj rt_sim.obj ext_svr.obj updown.obj ext_work.obj
+OBJS = lqg_test.obj lqg_test_data.obj lqg_test_main.obj rtGetInf.obj rtGetNaN.obj rt_nonfinite.obj rt_zcfcn.obj rt_sim.obj ext_svr.obj updown.obj ext_work.obj
 
 ALL_OBJS = $(OBJS)
 
@@ -398,6 +398,10 @@ rtGetNaN.obj : $(START_DIR)\lqg_test_quarc_win64\rtGetNaN.c
 
 rt_nonfinite.obj : $(START_DIR)\lqg_test_quarc_win64\rt_nonfinite.c
 	$(CC) $(CFLAGS) -Fo"$@" $(START_DIR)\lqg_test_quarc_win64\rt_nonfinite.c
+
+
+rt_zcfcn.obj : $(START_DIR)\lqg_test_quarc_win64\rt_zcfcn.c
+	$(CC) $(CFLAGS) -Fo"$@" $(START_DIR)\lqg_test_quarc_win64\rt_zcfcn.c
 
 
 rt_sim.obj : $(MATLAB_ROOT)\rtw\c\src\rt_sim.c
