@@ -55,7 +55,6 @@ H = [0,0,0,0;
 
 [KEST,L,P] = kalman(ss(A, [B, G], C, [D, H]), Q_kalman, R_kalman);
 poles_kalman = eig(A-L*C);
-kalman_mode_freq = imag(poles_kalman)/(2*pi);
 
 %[KEST,L,P] = kalman(SYS,QN,RN,NN) designs a Kalman estimator KEST for
 %    the continuous- or discrete-time plant SYS. For continuous-time plants
